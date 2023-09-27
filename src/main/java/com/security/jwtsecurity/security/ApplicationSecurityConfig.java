@@ -3,6 +3,7 @@ package com.security.jwtsecurity.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -28,10 +29,14 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/", "/api/**").hasRole(USER_ROLE.name())
-                .antMatchers("/", "/api/**").hasRole(ADMIN_TRAINEE.name())
+                .antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(ApplicationUserPermission.USER_WRITE.name())
+                .antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(ApplicationUserPermission.USER_WRITE.name())
+                .antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(ApplicationUserPermission.USER_WRITE.name())
+                .antMatchers(HttpMethod.GET, "/management/api/**").hasAnyRole(ADMIN_ROLE.name(), ADMIN_TRAINEE.name())
                 .anyRequest()
                 .authenticated()
                 .and()

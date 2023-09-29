@@ -20,6 +20,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation ('com.google.guava:guava:30.0-android')
+    implementation ('org.springframework.boot:spring-boot-starter-cache:2.7.0')
+    implementation ('com.github.ben-manes.caffeine:caffeine:2.7.0')
 }
 
 tasks.named('test') {

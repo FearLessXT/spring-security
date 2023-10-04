@@ -16,11 +16,12 @@ public class StudentManagementController {
     );
 
     @GetMapping
+
     public List<Student> getStudents() {
         return STUDENTS;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void registerStudent(@RequestBody Student student) {
         System.out.println(student);
     }
